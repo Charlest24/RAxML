@@ -1,0 +1,21 @@
+#!/bin/bash --login
+########### Define Resources Needed with SBATCH Lines ##########
+
+#SBATCH --time=168:00:00             # limit of wall clock time - how long the job will run (same as -t)
+#SBATCH --ntasks=10                  # number of tasks - how many tasks (nodes) that you require (same as -n)
+#SBATCH --cpus-per-task=4           # number of CPUs (or cores) per task (same as -c)
+#SBATCH --mem=16G                    # memory required per node - amount of memory (in bytes)
+#SBATCH --job-name Human_and_Dog_Chromosome_Core_Genome_Phylogeny_Boot      # you can give your job a name for easier identification (same as -J)
+
+########## Command Lines to Run ##########
+# Purge all modules
+module purge 
+
+# Load the RAxML Program in HPCC "Make Sure its the updated version"
+module load RAxML/8.2.12-GCC-12.3.0-pthreads-avx
+
+# Change to Directory of where your Core Genome Alignment is
+cd /mnt/home/white174/RAxML/  ### change to the directory where your data is located
+
+# Command Line for running RAxML
+raxmlHPC -T 8 -s core_gene_alignment_updated.aln -n Human_and_Dog_Core_Genome_Tree_1000replicates -m GTRGAMMA -p 12345 -x 67890 -#1000
